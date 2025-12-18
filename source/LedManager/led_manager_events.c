@@ -124,8 +124,12 @@ static int handle_event(cpe_event_t event)
     led_hal_command_t * cmd = NULL;
     LEDMGMT_PARAMS led_data;
 
+    CcspTraceInfo(("%s %d LED Event :%d Total:%d\n", __FUNCTION__, __LINE__, event, g_led_data.no_of_leds));
+
     for (i = 0; i < g_led_data.no_of_leds; i++) 
     {
+        CcspTraceInfo(("%s %d LED Event :%d Total:%d state %d, %s\n", __FUNCTION__, __LINE__, event, g_led_data.no_of_leds, i, led_data_arr[i].current_state ? led_data_arr[i].current_state->name : "NULL"));
+
         state = led_data_arr[i].current_state;
         if (state == NULL)
             continue;   // check remaining LEDs
@@ -133,6 +137,8 @@ static int handle_event(cpe_event_t event)
         CcspTraceInfo(("\n\nfor LED %s with current state %s..\n", led_data_arr[i].name, state->name));
         transitions = state->transitions_list;
         no_of_transitions = state->no_of_transitions;
+        CcspTraceInfo(("%s %d LED Event :%d Total:%d state %d, %s, Trans %d\n", __FUNCTION__, __LINE__, event, g_led_data.no_of_leds, i, led_data_arr[i].current_state ? led_data_arr[i].current_state->name : "NULL", no_of_transitions));
+
         for (j = 0; j < no_of_transitions; j++)
         {
             if (transitions[j].event == event)
