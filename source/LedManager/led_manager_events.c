@@ -123,7 +123,7 @@ static int handle_event(cpe_event_t event)
     led_mode_t * mode = NULL;
     led_hal_command_t * cmd = NULL;
     LEDMGMT_PARAMS led_data;
-
+#errr
     CcspTraceInfo(("%s %d LED Event :%d Total:%d\n", __FUNCTION__, __LINE__, event, g_led_data.no_of_leds));
 
     for (i = 0; i < g_led_data.no_of_leds; i++) 
