@@ -39,6 +39,7 @@ char * ledmgr_read_config_file (FILE * fp);
 int ledmgr_parse_config_file (char * buffer);
 int ledmgr_print_data_to_logfile();
 void ledmgr_free_data();
+bool is_remote_lte_up();
 #ifdef WAN_STATUS_LED_EVENT
 BOOL check_captive_portal_mode();
 #endif
