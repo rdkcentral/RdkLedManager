@@ -93,20 +93,20 @@ cpe_event_t ledmgr_get_event_from_str (char * event_str)
 bool is_remote_lte_up() {
     FILE *fp;
     char buffer[512];
-    CcspTraceError(("################################ is_remote_lte_up called ############################\n"));
-    fp = popen("dmcli eRT getv Device.X_RDK_WanManager.InterfaceAvailableStatus", "r");
+    CcspTraceError((" is_remote_lte_up called \n"));
+    fp = popen("dmcli eRT getv Device.X_RDK_WanManager.InterfaceActiveStatus", "r");
     if (!fp) return 0;
 
     while (fgets(buffer, sizeof(buffer), fp)) {
         if (strstr(buffer, "REMOTE_LTE,1")) {
             pclose(fp);
-            CcspTraceError(("################################ is_remote_lte_up returned true ############################\n"));
+            CcspTraceError((" is_remote_lte_up returned true \n"));
             return true;
         }
     }
 
     pclose(fp);
-    CcspTraceError(("################################ is_remote_lte_up returned false ############################\n"));
+    CcspTraceError((" is_remote_lte_up returned false \n"));
     return false;
 }
 
@@ -176,23 +176,22 @@ static int parse_wan_event(char * event_str, char * wan_event)
         {
             if(strcmp(led_wan_events[i].wan_event,"rdkb_ipv4_only") == 0)
             {
-              CcspTraceError((" ############### wan_event is rdkb_ipv4_only ####################### \n"));
+              CcspTraceError((" wan_event is rdkb_ipv4_only \n"));
               /*rdkb_ipv4_only - then it could be because of remote LTE completes WAN path*/
               if(is_remote_lte_up()){
                  CcspTraceError(("Setting rdkb_wan_link_down as wan_event as is_remote_lte_up is true\n"));
                 /*if REMOTE_LTE_CHECK is true then local device is in WAN FAIL OVER MODE*/
                 strncpy(wan_event,"rdkb_wan_link_down", BUFLEN_64-1);
-				CcspTraceError((" 1) ########################## Final Wan Status Event: %s #########################\n", wan_event));
-			   	free(led_wan_data);
-                return SUCCESS;
               }
+			  else{
+				  strncpy(wan_event, led_wan_events[i].wan_event, BUFLEN_64-1);
+			  }
             }
             else
             {
-               CcspTraceError((" ############### wan_event is %s ####################### \n",led_wan_events[i].wan_event));
+			    strncpy(wan_event, led_wan_events[i].wan_event, BUFLEN_64-1);          
             }
-            strncpy(wan_event, led_wan_events[i].wan_event, BUFLEN_64-1);
-			CcspTraceError((" 2) ########################## Final Wan Status Event: %s #########################\n", wan_event));
+            
             CcspTraceError(("Final Wan Status Event: %s\n", led_wan_events[i].wan_event));
 	        free(led_wan_data);
             return SUCCESS;
