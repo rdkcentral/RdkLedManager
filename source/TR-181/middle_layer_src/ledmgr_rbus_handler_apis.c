@@ -56,6 +56,8 @@ unsigned int gSubscribersCount = 0;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static unsigned int wan_backup_status;
 extern int handle_event(cpe_event_t event);
+static InterfaceStatusType GetActiveInterfaceType(const char *interface_active_status);
+static void WanInterfaceStatusHandler(rbusHandle_t handle, rbusEvent_t const* event, rbusEventSubscription_t* subscription);
 rbusError_t LedMgr_Rbus_GetHandler(rbusHandle_t handle, rbusProperty_t property, rbusGetHandlerOptions_t* opts);
 
 #ifdef LEDMGR_WEBCONFIG

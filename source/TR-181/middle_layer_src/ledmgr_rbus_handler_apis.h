@@ -56,6 +56,4 @@ void LedMgr_Rbus_UnSubscribeDML(void);
 int LedMgr_parseOnOffJson (char* buffer_onOff);
 int LedMgr_parseBrightnessJson(char* buffer_brightness);
 int LedMgr_validateSchema(char* json_string, char* schema_path);
-static InterfaceStatusType GetActiveInterfaceType(const char *interface_active_status);
-static void WanInterfaceStatusHandler(rbusHandle_t handle, rbusEvent_t const* event, rbusEventSubscription_t* subscription);
 #endif //_LEDMGR_RBUS_H_
